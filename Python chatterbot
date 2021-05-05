@@ -1,0 +1,102 @@
+from random import randint
+
+# account storage
+account_dict = dict()
+
+def add():
+    global account_dict
+    while True:
+        info = input("What do you want to add to your account? Put everything in this format: (Password, 123456) ")
+        parsed_info = info.replace("(", "").replace(")", "").split(", ")
+        count = 0
+        while count + 1 < len(parsed_info):
+            account_dict[parsed_info[count].lower()] = parsed_info[count + 1]
+            count += 2
+        print("Press S to search")
+        cont = input("")
+        if cont.upper() == "S":
+            break
+
+def account():
+    global account_dict
+    add()
+    while True:
+        cont = input("Press c to continue. ")
+        if cont != "c":
+            break
+        search = input("What do you want the password to?\n")
+        result = account_dict.get(search.lower())
+        if result != None:
+            print(result)
+        else:
+            print("No results found. Try again.")
+
+        print("Press S to keep on searching.")
+        cont1 = input("")
+        if cont1.upper() != "S":
+            add()
+
+# square root
+def square_root():
+    num = input("What number do you want to square root?")
+    delta = 10
+    number = float(num)
+    low = 0
+    if number >= 1:
+        high = number
+    if number < 1:
+        high = 1
+    if number < 0:
+        return "imaginary."
+    while delta >= 0.000000000001:
+        average = (low + high) / 2
+        if average ** 2 >= number:
+            high = average
+        if average ** 2 < number:
+            low = average
+        delta = abs(number - average ** 2)
+    print("The square root of", number, "is", high)
+
+# lottery
+def lottery():
+    score = 0
+    while True:
+        x = randint(1, 10)
+        guess = int(input("What is your guess from 0 to 10? Only integers allowed "))
+        if guess == x:
+            print("You got it right!")
+            print("Plus 100 points")
+            score += 100
+        else:
+            print("You got it wrong. The number was supposed to be", x)
+        print("Your score so far is: ", score)
+        cont = input("Press c to continue. ")
+
+        if cont != "c":
+            break
+
+user = input("Bot: What do you want me to call you?\n")
+print("Hi,", user)
+print("Bot:", user, ", here is a simple tutorial. Type *weather* to find out today's weather. Type *name* to find out "
+                    "my name")
+print("Bot: Type *account* to access your account. Type *sqrt* to square root a number.")
+print("Bot: Type *lottery* to do a simple lottery game with me.")
+while True:
+    task = input("Bot: What do you want me to do?\n")
+    if task == "weather":
+        print("Bot:", user, "check out the weather: https://www.msn.com/en-us/weather/today/weather-today/we-city?el"
+                            "=u6p681VyrpWVqwhyweBmQw%3D%3D&ocid=ansmsnweather")
+    if task == "name":
+        print("Bot:", user, "my name is: HappyBot101")
+    if task == "account":
+        print("Alex, here is your account")
+        account()
+    if task == "sqrt":
+        square_root()
+    if task == "lottery":
+        lottery()
+    should_continue = input("Type 'yes' to continue.\n")
+    if should_continue.upper() == "YES":
+        continue
+    else:
+        break
